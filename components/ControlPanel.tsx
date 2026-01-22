@@ -65,7 +65,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     };
 
     return (
-      <button 
+      <button
         onClick={onClick}
         title={title}
         className={`p-2.5 rounded-2xl transition-all duration-300 active:scale-90 border border-white/50 shadow-sm ${variants[color]}`}
@@ -92,16 +92,16 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
       {showAdvanced && (
         <div className="p-6 bg-blue-500/[0.03] backdrop-blur-3xl rounded-[2rem] border border-blue-500/10 shadow-inner animate-in fade-in slide-in-from-top-4">
-           <span className="text-[9px] font-black text-blue-600/50 uppercase tracking-[0.3em] flex items-center gap-2 mb-5">Physics Calibration</span>
-           <div className="flex justify-between items-center mb-3">
-              <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] block">Atmospheric k-Factor</label>
-              <span className="text-xs font-mono font-black text-blue-700 bg-white/90 px-3.5 py-1.5 rounded-full shadow-sm ring-1 ring-blue-50">{kFactor.toFixed(3)}</span>
-            </div>
-            <input 
-              type="range" min="0.5" max="2.0" step="0.001" value={kFactor} 
-              onChange={e => onUpdateKFactor(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-200/50 rounded-full appearance-none cursor-pointer accent-blue-600 transition-all hover:bg-slate-300/50"
-            />
+          <span className="text-[9px] font-black text-blue-600/50 uppercase tracking-[0.3em] flex items-center gap-2 mb-5">Physics Calibration</span>
+          <div className="flex justify-between items-center mb-3">
+            <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] block">Atmospheric k-Factor</label>
+            <span className="text-xs font-mono font-black text-blue-700 bg-white/90 px-3.5 py-1.5 rounded-full shadow-sm ring-1 ring-blue-50">{kFactor.toFixed(3)}</span>
+          </div>
+          <input
+            type="range" min="0.5" max="2.0" step="0.001" value={kFactor}
+            onChange={e => onUpdateKFactor(parseFloat(e.target.value))}
+            className="w-full h-2 bg-slate-200/50 rounded-full appearance-none cursor-pointer accent-blue-600 transition-all hover:bg-slate-300/50"
+          />
         </div>
       )}
 
@@ -163,11 +163,29 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       </div>
 
       <div className="mt-auto space-y-6 pt-10 border-t border-slate-900/5">
-        <div className="relative group">
-          <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" id="csv-upload" />
-          <label htmlFor="csv-upload" className={`flex items-center justify-center gap-4 p-6 border-2 border-dashed rounded-[2.5rem] cursor-pointer transition-all duration-500 text-[11px] font-black uppercase tracking-[0.2em] ${csvData.length > 0 ? 'border-blue-600 bg-blue-600/[0.05] text-blue-700' : 'border-slate-200 bg-white/40 text-slate-400 hover:border-blue-400 hover:bg-white'}`}>
-            <Upload size={24} className="opacity-30" /> {csvData.length > 0 ? `${csvData.length} Records Ingested` : 'Select CSV Batch'}
-          </label>
+        <div className="flex gap-4 items-center">
+          <div className="relative group flex-1">
+            <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" id="csv-upload" />
+            <label htmlFor="csv-upload" className={`flex items-center justify-center gap-4 p-6 border-2 border-dashed rounded-[2.5rem] cursor-pointer transition-all duration-500 text-[11px] font-black uppercase tracking-[0.2em] ${csvData.length > 0 ? 'border-blue-600 bg-blue-600/[0.05] text-blue-700' : 'border-slate-200 bg-white/40 text-slate-400 hover:border-blue-400 hover:bg-white'}`}>
+              <Upload size={24} className="opacity-30" /> {csvData.length > 0 ? `${csvData.length} Records` : 'Select CSV'}
+            </label>
+          </div>
+          <button
+            onClick={() => {
+              const csvContent = "data:text/csv;charset=utf-8,name,lat,lng\nSampleTarget,10.0,76.5\nAnotherTarget,10.1,76.6";
+              const encodedUri = encodeURI(csvContent);
+              const link = document.createElement("a");
+              link.setAttribute("href", encodedUri);
+              link.setAttribute("download", "terrascan_template.csv");
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
+            title="Download CSV Template"
+            className="p-6 rounded-[2.5rem] border-2 border-slate-200 bg-white/40 hover:bg-white hover:border-blue-400 text-slate-400 hover:text-blue-500 transition-all duration-300"
+          >
+            <DownloadCloud size={24} className="opacity-50" />
+          </button>
         </div>
 
         <button onClick={() => onAnalyze()} disabled={isAnalyzing} className={`w-full py-6 rounded-[2.5rem] flex items-center justify-center gap-6 font-black text-white transition-all duration-700 shadow-2xl uppercase tracking-[0.3em] text-[11px] ring-1 ring-white/30 ${isAnalyzing ? 'bg-slate-400 opacity-60' : 'bg-gradient-to-r from-blue-600 to-indigo-700 hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98]'}`}>
