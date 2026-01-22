@@ -220,7 +220,7 @@ const App: React.FC = () => {
             </div>
           )}
 
-          <div className={`grid gap-8 ${isMapExpanded ? 'grid-cols-1 flex-1' : 'grid-cols-1 xl:grid-cols-2 lg:min-h-[500px]'}`}>
+          <div className={`grid gap-8 ${isMapExpanded ? 'grid-cols-1 flex-1' : 'grid-cols-1'}`}>
             <section className={`flex flex-col gap-4 ${isMapExpanded ? 'h-full flex-1' : 'min-h-[450px]'}`}>
               <h3 className="text-[10px] font-black text-slate-400 uppercase flex items-center gap-3 tracking-[0.4em] px-3 opacity-70">
                 <div className="w-2.5 h-2.5 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div> Geospatial Map
