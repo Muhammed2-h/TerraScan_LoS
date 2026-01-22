@@ -188,22 +188,22 @@ const MapToolbar = ({
     <button
       onClick={(e) => { e.stopPropagation(); onClick(); }}
       title={title}
-      className={`p-2 rounded-lg transition-all duration-300 ${active ? 'bg-white text-slate-900 shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/10'}`}
+      className={`p-2 rounded-lg transition-all duration-300 ${active ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:bg-white hover:text-blue-600 hover:shadow-sm'}`}
     >
-      <Icon size={18} strokeWidth={active ? 3 : 2} />
+      <Icon size={18} strokeWidth={active ? 2.5 : 2} />
     </button>
   );
 
   return (
-    <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[1000] bg-slate-900/90 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl shadow-2xl flex items-center gap-1.5">
+    <div className="absolute top-6 right-6 z-[1000] bg-white/80 backdrop-blur-xl border border-white/60 p-1.5 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex items-center gap-1.5">
       <Btn icon={Layers} onClick={cycleLayer} active={layerType !== 'normal'} title={`Layer: ${layerType}`} />
-      <div className="w-px h-6 bg-white/10 mx-1"></div>
+      <div className="w-px h-6 bg-slate-200 mx-1"></div>
       <Btn icon={Plus} onClick={handleZoomIn} title="Zoom In" />
       <Btn icon={Minus} onClick={handleZoomOut} title="Zoom Out" />
-      <div className="w-px h-6 bg-white/10 mx-1"></div>
+      <div className="w-px h-6 bg-slate-200 mx-1"></div>
       <Btn icon={showLegend ? Eye : EyeOff} onClick={() => setShowLegend(!showLegend)} active={showLegend} title="Toggle HUD" />
       <Btn icon={isExpanded ? Minimize2 : Maximize2} onClick={onToggleExpand} active={isExpanded} title="Fullscreen" />
-      <div className="w-px h-6 bg-white/10 mx-1"></div>
+      <div className="w-px h-6 bg-slate-200 mx-1"></div>
       <Btn icon={Home} onClick={handleHome} title="Reset View" />
     </div>
   );
