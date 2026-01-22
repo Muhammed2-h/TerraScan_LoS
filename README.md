@@ -1,143 +1,80 @@
-🌍 TerraScan_LoS — Terrain Line-of-Sight Analyzer
+# 🌍 TerraScan LoS
 
-TerraScan_LoS is a lightweight web application that analyzes terrain elevation between two geographic points and visualizes potential Line-of-Sight (LoS) issues.
-It is designed for quick terrain checks, elevation profiling, and visual inspection of obstacles between Point A and Point B.
+**TerraScan LoS** is a powerful web-based tool for analyzing terrain Line-of-Sight (LoS) between geographic points. By visualizing elevation profiles and calculating terrain obstructions, it helps in network planning, GIS analysis, and geospatial exploration.
 
-This tool is especially useful for:
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-19.0-blue)
+![Vite](https://img.shields.io/badge/Vite-6.0-purple)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 
-Telecom & network planning
+## ✨ Features
 
-GIS and terrain analysis
+- **📍 Precise Analysis**: Input coordinates for Point A and Point B to calculate Line-of-Sight.
+- **📈 Elevation Profiling**: Visual chart showing terrain elevation along the path.
+- **🧭 Obstruction Detection**: Automatically identifies terrain that blocks the signal or view.
+- **🗺️ Interactive Map**: Visualize the link on a dynamic map.
+- **⚡ Fast & Responsive**: Built with React and Vite for high performance.
 
-Line-of-sight feasibility checks
+## 🛠️ Tech Stack
 
-Educational and experimental geospatial projects
+- **Frontend**: React (v19), TypeScript, Tailwind CSS
+- **Build Tool**: Vite
+- **Mapping**: Leaflet, React-Leaflet
+- **Charting**: Recharts
+- **Icons**: Lucide React
 
-🚀 Features
+## 🚀 Getting Started
 
-📍 Accepts two geographic points (latitude & longitude)
+### Prerequisites
 
-📈 Fetches elevation data for intermediate points
+- Node.js (v18 or higher)
+- npm or yarn
 
-📊 Generates an elevation profile
+### Installation
 
-🧭 Detects potential terrain obstructions
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Muhammed2-h/TerraScan_LoS.git
+   cd TerraScan_LoS
+   ```
 
-🗺️ Visualizes the connection line between points
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-⚡ Built with React + TypeScript + Vite
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-🧩 Uses open-source libraries only
+## 📦 Build for Production
 
-🧠 How It Works (Concept)
+To create a production-ready build:
 
-User provides Point A and Point B (lat/long)
+```bash
+npm run build
+```
 
-A straight line is drawn between the two points
+## 🌐 Deployment
 
-Elevation data is sampled along the line
+This project is optimized for deployment on Vercel.
 
-Terrain height variations are analyzed
+1. Push your code to a GitHub repository.
+2. Link the repository to your Vercel account.
+3. Vercel will automatically detect the Vite configuration and deploy.
 
-Results are displayed as:
+## 🤝 Contributing
 
-A line connecting A → B
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-An elevation profile chart
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Visual indication of possible LoS blockage
+## 📜 License
 
-🛠 Tech Stack
-
-Frontend: React + TypeScript
-
-Build Tool: Vite
-
-Visualization: Chart / plotting libraries
-
-Mapping / Geo logic: Open-source geospatial utilities
-
-Runtime: Node.js
-
-📦 Installation & Local Setup
-1️⃣ Clone the repository
-git clone https://github.com/Muhammed2-h/TerraScan_LoS.git
-cd TerraScan_LoS
-
-2️⃣ Install dependencies
-npm install
-
-3️⃣ Run the app
-npm run dev
-
-
-The app will be available at:
-
-http://localhost:5173
-
-🧪 Usage
-
-Open the app in your browser
-
-Enter Latitude & Longitude for:
-
-Point A
-
-Point B
-
-Start analysis
-
-View:
-
-Terrain elevation profile
-
-Line-of-Sight feasibility
-
-Visual indicators of terrain interference
-
-📂 Project Structure (Simplified)
-TerraScan_LoS/
-├── src/
-│   ├── components/      # UI components
-│   ├── services/        # Elevation & terrain logic
-│   ├── App.tsx          # Main app
-│   └── main.tsx
-├── public/
-├── package.json
-└── README.md
-
-⚠️ Limitations
-
-Accuracy depends on the elevation data source
-
-Not intended for certified engineering decisions
-
-Internet connection required for elevation APIs (if used)
-
-🔮 Future Improvements
-
-🌐 Map view with terrain overlay
-
-📡 Fresnel zone calculation
-
-📤 Export elevation profile (CSV / PNG)
-
-📍 Multiple point chain analysis
-
-🛰️ Offline DEM support
-
-🤝 Contributing
-
-Contributions are welcome!
-
-Fork the repo
-
-Create a feature branch
-
-Commit changes
-
-Open a Pull Request
-
-📜 License
-
-This project is open-source and available under the MIT License.
+This project is licensed under the MIT License.
