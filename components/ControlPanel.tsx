@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Unlock, Upload, Play, MapPin, Trash2, Plus, X, AlertCircle, Settings2, DownloadCloud, LocateFixed, Edit2 } from 'lucide-react';
+import { Lock, Unlock, Upload, Play, MapPin, Trash2, Plus, X, AlertCircle, Settings2, DownloadCloud, LocateFixed, Edit2, Info } from 'lucide-react';
 import Papa from 'papaparse';
 import { Coordinate } from '../types';
 
@@ -29,6 +29,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
   const [csvError, setCsvError] = useState<string | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showPhysicsInfo, setShowPhysicsInfo] = useState(false);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -92,7 +93,27 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
       {showAdvanced && (
         <div className="p-6 bg-blue-500/[0.03] backdrop-blur-3xl rounded-[2rem] border border-blue-500/10 shadow-inner animate-in fade-in slide-in-from-top-4">
-          <span className="text-[9px] font-black text-blue-600/50 uppercase tracking-[0.3em] flex items-center gap-2 mb-5">Physics Calibration</span>
+          <div className="flex items-center justify-between mb-5">
+            <span className="text-[9px] font-black text-blue-600/50 uppercase tracking-[0.3em] flex items-center gap-2">Physics Calibration</span>
+            <button
+              onClick={() => setShowPhysicsInfo(!showPhysicsInfo)}
+              className={`p-1.5 rounded-lg transition-all ${showPhysicsInfo ? 'bg-blue-600 text-white' : 'text-blue-400 hover:text-blue-600 hover:bg-blue-50'}`}
+            >
+              <Info size={14} />
+            </button>
+          </div>
+
+          {showPhysicsInfo && (
+            <div className="mb-6 p-4 bg-white/60 rounded-2xl border border-blue-100 text-[10px] text-slate-600 leading-relaxed shadow-sm animate-in fade-in zoom-in-95">
+              <p className="mb-2"><strong className="text-blue-700">k-Factor (Effective Earth Radius Factor):</strong> Adjusts for atmospheric refraction which bends radio waves.</p>
+              <ul className="list-disc pl-4 space-y-1 opacity-80">
+                <li><span className="font-bold">1.333 (4/3):</span> Standard atmosphere (normal conditions).</li>
+                <li><span className="font-bold">1.0:</span> No refraction (straight line geometry).</li>
+                <li><span className="font-bold">&lt; 1.0:</span> Sub-refraction (waves bend upward, potential obstruction).</li>
+              </ul>
+            </div>
+          )}
+
           <div className="flex justify-between items-center mb-3">
             <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] block">Atmospheric k-Factor</label>
             <span className="text-xs font-mono font-black text-blue-700 bg-white/90 px-3.5 py-1.5 rounded-full shadow-sm ring-1 ring-blue-50">{kFactor.toFixed(3)}</span>
