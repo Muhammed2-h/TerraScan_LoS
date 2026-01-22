@@ -1,3 +1,4 @@
+import './index.css';
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Activity, AlertTriangle, Globe } from 'lucide-react';
 import { ControlPanel } from './components/ControlPanel';
@@ -24,11 +25,11 @@ const App: React.FC = () => {
   const [focusPoint, setFocusPoint] = useState<Coordinate | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pickingMode, setPickingMode] = useState<'pointA' | number | null>(null);
-  
+
   const chartSectionRef = useRef<HTMLDivElement>(null);
 
   // Filter valid results for the map to prevent unnecessary recalculations
-  const validResults = useMemo(() => 
+  const validResults = useMemo(() =>
     state.results.filter(r => r.status !== 'Error'),
     [state.results]
   );
@@ -83,10 +84,10 @@ const App: React.FC = () => {
     setState(prev => ({ ...prev, isAnalyzing: true }));
     setError(null);
     setFocusPoint(null);
-    
+
     try {
       const items = batchInput || state.targets.map(t => ({ pointA: state.pointA, pointB: t }));
-      
+
       // Process in small parallel chunks to optimize performance without hitting API limits too hard
       const CHUNK_SIZE = 3;
       const allResults: AnalysisResult[] = [];
@@ -96,10 +97,10 @@ const App: React.FC = () => {
         const chunkPromises = chunk.map(async (item, idx) => {
           try {
             return await runLoSAnalysis(
-              `TERRA-${Date.now()}-${i + idx}`, 
-              item.pointA, 
-              item.pointB, 
-              undefined, 
+              `TERRA-${Date.now()}-${i + idx}`,
+              item.pointA,
+              item.pointB,
+              undefined,
               { kFactor: state.kFactor, earthRadius: state.earthRadius }
             );
           } catch (linkErr: any) {
@@ -107,7 +108,7 @@ const App: React.FC = () => {
               id: `TERRA-ERR-${Date.now()}-${i + idx}`,
               pointA: item.pointA,
               pointB: item.pointB,
-              distance: 0, 
+              distance: 0,
               status: 'Error' as const,
               errorMessage: linkErr.message || "Elevation fetch failure",
               maxObstructionHeight: 0,
@@ -118,7 +119,7 @@ const App: React.FC = () => {
 
         const results = await Promise.all(chunkPromises);
         allResults.push(...results);
-        
+
         // Update state progressively for feedback
         setState(prev => ({
           ...prev,
@@ -170,12 +171,10 @@ const App: React.FC = () => {
             <h1 className="text-xl font-black tracking-tight text-slate-900 leading-none">
               TerraScan <span className="text-blue-600 italic">LoS</span>
             </h1>
-            <p className="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em] mt-1.5 opacity-80">
-              Advanced Terrain Intelligence
-            </p>
+
           </div>
         </div>
-        
+
         <div className="flex items-center gap-6">
           <div className="flex flex-col items-end">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">Engine State</span>
@@ -192,7 +191,7 @@ const App: React.FC = () => {
       <main className={`flex-1 p-6 lg:p-8 grid gap-8 h-auto lg:h-[calc(100vh-82px)] overflow-hidden ${isMapExpanded ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-12'}`}>
         <aside className={`${isMapExpanded ? 'hidden' : 'lg:col-span-3'} h-full overflow-y-auto pr-1 custom-scrollbar`}>
           <div className="bg-white/40 backdrop-blur-3xl rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] h-full overflow-hidden transition-all duration-500">
-            <ControlPanel 
+            <ControlPanel
               pointA={state.pointA}
               targets={state.targets}
               lockA={state.lockA}
@@ -227,11 +226,11 @@ const App: React.FC = () => {
                 <div className="w-2.5 h-2.5 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div> Geospatial Map
               </h3>
               <div className="flex-1 min-h-[400px] relative rounded-[3rem] overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.08)] border border-white ring-1 ring-black/5 bg-white">
-                <TerrainMap 
-                  results={validResults} 
+                <TerrainMap
+                  results={validResults}
                   selectedId={selectedResult?.id || null}
                   focusPoint={focusPoint}
-                  isExpanded={isMapExpanded} 
+                  isExpanded={isMapExpanded}
                   onToggleExpand={() => setIsMapExpanded(!isMapExpanded)}
                   pickingMode={pickingMode}
                   onLocationConfirm={handleLocationConfirm}
@@ -255,8 +254,8 @@ const App: React.FC = () => {
           {!isMapExpanded && (
             <section className="pb-16">
               <div className="bg-white/30 backdrop-blur-3xl rounded-[3.5rem] border border-white shadow-[0_40px_100px_rgba(0,0,0,0.06)] overflow-hidden transition-all duration-700 hover:bg-white/40">
-                <ResultsTable 
-                  results={state.results} 
+                <ResultsTable
+                  results={state.results}
                   onSelectResult={setSelectedResult}
                   selectedId={selectedResult?.id || null}
                 />
@@ -275,19 +274,8 @@ const App: React.FC = () => {
           </div>
         </footer>
       )}
-      
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 12px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(148, 163, 184, 0.15);
-          border-radius: 12px;
-          border: 4px solid transparent;
-          background-clip: padding-box;
-          transition: background 0.3s;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.3); }
-      `}</style>
+
+
     </div>
   );
 };

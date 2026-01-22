@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart, Line, Brush, Label
 } from 'recharts';
 import { AnalysisResult } from '../types';
@@ -16,7 +16,7 @@ const CustomTooltip = ({ active, payload, label, visibleSeries }: any) => {
   if (active && payload && payload.length) {
     const terrain = payload.find((p: any) => p.dataKey === 'elevation');
     const los = payload.find((p: any) => p.dataKey === 'los');
-    
+
     const showTerrain = terrain && visibleSeries.terrain;
     const showLoS = los && visibleSeries.los;
 
@@ -132,24 +132,22 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
           <p className="text-[10px] text-slate-400 uppercase font-black tracking-[0.2em] mt-2 ml-4">Advanced LoS Visualization</p>
         </div>
         <div className="flex items-center gap-3 bg-white/50 backdrop-blur-xl p-1.5 rounded-2xl border border-white/60 shadow-lg w-full sm:w-auto overflow-x-auto no-scrollbar">
-          <button 
+          <button
             onClick={() => toggleSeries('terrain')}
-            className={`flex items-center justify-center gap-2.5 px-4 py-2 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest flex-1 sm:flex-none ${
-              visibleSeries.terrain 
-                ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-200' 
+            className={`flex items-center justify-center gap-2.5 px-4 py-2 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest flex-1 sm:flex-none ${visibleSeries.terrain
+                ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-200'
                 : 'bg-white text-slate-400 hover:text-blue-500'
-            }`}
+              }`}
           >
             {visibleSeries.terrain ? <Eye size={16} /> : <EyeOff size={16} />}
             Terrain
           </button>
-          <button 
+          <button
             onClick={() => toggleSeries('los')}
-            className={`flex items-center justify-center gap-2.5 px-4 py-2 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest flex-1 sm:flex-none ${
-              visibleSeries.los 
-                ? 'bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg shadow-red-200' 
+            className={`flex items-center justify-center gap-2.5 px-4 py-2 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest flex-1 sm:flex-none ${visibleSeries.los
+                ? 'bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg shadow-red-200'
                 : 'bg-white text-slate-400 hover:text-red-500'
-            }`}
+              }`}
           >
             {visibleSeries.los ? <Eye size={16} /> : <EyeOff size={16} />}
             LoS
@@ -162,18 +160,18 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
           <ComposedChart data={data} margin={{ top: 10, right: 10, left: 5, bottom: 5 }}>
             <defs>
               <linearGradient id="colorElev" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.6}/>
-                <stop offset="95%" stopColor="#2563eb" stopOpacity={0.05}/>
+                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.6} />
+                <stop offset="95%" stopColor="#2563eb" stopOpacity={0.05} />
               </linearGradient>
             </defs>
-            
+
             <CartesianGrid strokeDasharray="5 5" vertical={false} stroke="#e2e8f0" opacity={0.5} />
-            
-            <XAxis 
-              dataKey="dist" 
+
+            <XAxis
+              dataKey="dist"
               fontSize={10}
               fontWeight="900"
-              tickFormatter={(val) => val >= 1000 ? `${(val/1000).toFixed(1)}k` : `${val}`}
+              tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : `${val}`}
               stroke="#cbd5e1"
               tick={{ fill: '#94a3b8' }}
               minTickGap={isSmallScreen ? 45 : 30}
@@ -181,8 +179,8 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
               axisLine={false}
               tickLine={false}
             />
-            
-            <YAxis 
+
+            <YAxis
               fontSize={10}
               fontWeight="900"
               domain={['auto', 'auto']}
@@ -194,44 +192,44 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
               tickLine={false}
             >
               {!isSmallScreen && (
-                <Label 
-                  value="Elevation (m)" 
-                  angle={-90} 
-                  position="insideLeft" 
+                <Label
+                  value="Elevation (m)"
+                  angle={-90}
+                  position="insideLeft"
                   style={{ textAnchor: 'middle', fontSize: '9px', fontWeight: '950', fill: '#94a3b8', letterSpacing: '0.15em', textTransform: 'uppercase' }}
                   offset={-5}
                 />
               )}
             </YAxis>
-            
-            <Tooltip 
-              content={<CustomTooltip visibleSeries={visibleSeries} />} 
+
+            <Tooltip
+              content={<CustomTooltip visibleSeries={visibleSeries} />}
               cursor={{ stroke: '#94a3b8', strokeWidth: 1.5, strokeDasharray: '4 4' }}
               isAnimationActive={false}
               offset={10}
             />
-            
+
             {visibleSeries.terrain && (
-              <Area 
-                type="monotone" 
-                dataKey="elevation" 
-                stroke="#2563eb" 
+              <Area
+                type="monotone"
+                dataKey="elevation"
+                stroke="#2563eb"
                 strokeWidth={3}
-                fill="url(#colorElev)" 
-                fillOpacity={1} 
+                fill="url(#colorElev)"
+                fillOpacity={1}
                 isAnimationActive={true}
                 animationDuration={1200}
                 animationEasing="ease-in-out"
               />
             )}
-            
+
             {visibleSeries.los && (
-              <Line 
-                type="linear" 
-                dataKey="los" 
-                stroke="#ef4444" 
-                strokeWidth={3} 
-                dot={false} 
+              <Line
+                type="linear"
+                dataKey="los"
+                stroke="#ef4444"
+                strokeWidth={3}
+                dot={false}
                 strokeDasharray="8 5"
                 isAnimationActive={true}
                 animationDuration={1200}
@@ -239,10 +237,10 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
               />
             )}
 
-            <Brush 
-              dataKey="dist" 
-              height={32} 
-              stroke="#e2e8f0" 
+            <Brush
+              dataKey="dist"
+              height={32}
+              stroke="#e2e8f0"
               fill="rgba(255,255,255,0.4)"
               tickFormatter={(val) => formatDistance(val)}
               className="font-black"
@@ -252,7 +250,7 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      
+
       <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 items-center gap-6">
         <div className="flex flex-col items-start gap-1">
           <span className="text-[9px] text-slate-400 font-black uppercase tracking-[0.2em]">Source (A)</span>
@@ -275,21 +273,8 @@ export const ElevationChart: React.FC<ElevationChartProps> = ({ result }) => {
           </span>
         </div>
       </div>
-      
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .recharts-brush-traveller {
-          fill: #fff;
-          stroke: #cbd5e1;
-          stroke-width: 2px;
-        }
-      `}</style>
+
+
     </div>
   );
 };
