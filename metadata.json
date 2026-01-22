@@ -1,0 +1,7 @@
+{
+  "name": "TerraScan LoS Analysis",
+  "description": "A high-precision terrain analysis tool for calculating Line-of-Sight (LoS) obstructions between geographic coordinates using open elevation data.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
