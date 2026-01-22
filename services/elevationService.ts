@@ -61,8 +61,8 @@ export const fetchElevations = async (points: Coordinate[]): Promise<number[]> =
       });
 
     } catch (error) {
-      console.warn('API fetch failed, returning 0 for missing points.');
-      toFetchIndices.forEach(idx => results[idx] = 0);
+      console.error('API fetch failed:', error);
+      throw new Error("Failed to fetch elevation data. The public API might be overloaded or down.");
     }
   }
 
