@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef, memo } from 'react';
 import { MapContainer, TileLayer, useMap, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import 'https://esm.sh/leaflet.markercluster@1.4.1?deps=leaflet@1.9.4';
+import 'leaflet.markercluster';
 import { 
   Maximize2, Minimize2, Eye, EyeOff, 
   Compass, Target, ChevronDown, ChevronUp, Map as MapIcon, 
