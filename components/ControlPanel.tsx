@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Unlock, Upload, Play, MapPin, Trash2, FileText, Plus, X, Terminal, AlertCircle, Settings2, DownloadCloud, LocateFixed, Edit2 } from 'lucide-react';
+import { Lock, Unlock, Upload, Play, MapPin, Trash2, Plus, X, AlertCircle, Settings2, DownloadCloud, LocateFixed, Edit2 } from 'lucide-react';
 import Papa from 'papaparse';
 import { Coordinate } from '../types';
 

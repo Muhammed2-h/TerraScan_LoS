@@ -89,7 +89,7 @@ const App: React.FC = () => {
       const items = batchInput || state.targets.map(t => ({ pointA: state.pointA, pointB: t }));
 
       // Process in small parallel chunks to optimize performance without hitting API limits too hard
-      const CHUNK_SIZE = 3;
+      const CHUNK_SIZE = 5;
       const allResults: AnalysisResult[] = [];
 
       for (let i = 0; i < items.length; i += CHUNK_SIZE) {

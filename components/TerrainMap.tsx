@@ -3,10 +3,10 @@ import React, { useEffect, useState, useRef, memo } from 'react';
 import { MapContainer, TileLayer, useMap, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet.markercluster';
-import { 
-  Maximize2, Minimize2, Eye, EyeOff, 
-  Compass, Target, ChevronDown, ChevronUp, Map as MapIcon, 
-  Activity, Settings2, ChevronRight, Check
+import {
+  Maximize2, Minimize2, Eye, EyeOff,
+  Compass, ChevronDown, ChevronUp, Map as MapIcon,
+  Activity, Settings2, ChevronRight
 } from 'lucide-react';
 import { AnalysisResult, Coordinate } from '../types';
 
@@ -80,7 +80,7 @@ const LinksLayer = memo(({ results, selectedId }: { results: AnalysisResult[]; s
   useEffect(() => {
     if (!layerRef.current) return;
     const layerGroup = layerRef.current;
-    
+
     polylinesRef.current.forEach(p => layerGroup.removeLayer(p));
     polylinesRef.current.clear();
 
@@ -88,13 +88,13 @@ const LinksLayer = memo(({ results, selectedId }: { results: AnalysisResult[]; s
       const isSelected = res.id === selectedId;
       const poly = L.polyline(
         [[res.pointA.lat, res.pointA.lng], [res.pointB.lat, res.pointB.lng]],
-        { 
-          renderer: sharedCanvasRenderer, 
-          color: res.status === 'Blocked' ? '#ef4444' : '#22c55e', 
-          weight: isSelected ? 6 : 3, 
-          opacity: isSelected ? 1.0 : 0.6, 
+        {
+          renderer: sharedCanvasRenderer,
+          color: res.status === 'Blocked' ? '#ef4444' : '#22c55e',
+          weight: isSelected ? 6 : 3,
+          opacity: isSelected ? 1.0 : 0.6,
           smoothFactor: 2.0,
-          interactive: true 
+          interactive: true
         }
       ).bindPopup(`<div class="p-1 min-w-[120px]"><div class="text-[9px] font-black uppercase text-slate-400 tracking-tighter">Path Detail</div><div class="text-xs font-bold text-slate-800">${res.nameA || 'Source'} → ${res.nameB || 'Target'}</div><div class="text-[9px] mt-1 font-mono text-slate-500">${(res.distance / 1000).toFixed(2)} km</div></div>`);
       poly.addTo(layerGroup);
@@ -167,15 +167,15 @@ const MapControls = memo(({ isExpanded, results, selectedId, focusPoint }: any) 
   return null;
 });
 
-export const TerrainMap: React.FC<TerrainMapProps> = ({ 
-  results, selectedId, focusPoint, isExpanded, onToggleExpand, 
-  pickingMode, onLocationConfirm, onPickingCancel 
+export const TerrainMap: React.FC<TerrainMapProps> = ({
+  results, selectedId, focusPoint, isExpanded, onToggleExpand,
+  pickingMode, onLocationConfirm, onPickingCancel
 }) => {
   const INITIAL_CENTER: [number, number] = [10.5, 76.5];
   const [showLegend, setShowLegend] = useState(true);
   const [layerType, setLayerType] = useState<MapLayerType>('normal');
   const [tempPickCoord, setTempPickCoord] = useState<Coordinate | null>(null);
-  
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [expandedSection, setExpandedSection] = useState<'layers' | 'view' | 'stats' | null>(null);
 
@@ -197,7 +197,7 @@ export const TerrainMap: React.FC<TerrainMapProps> = ({
         {layerType === 'normal' && <TileLayer attribution='&copy; OSM' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />}
         {(layerType === 'satellite' || layerType === 'hybrid') && <TileLayer attribution='&copy; Esri' url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />}
         {layerType === 'hybrid' && <TileLayer attribution='&copy; Esri' url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}" />}
-        
+
         {focusPoint && !isNaN(focusPoint.lat) && !isNaN(focusPoint.lng) && (
           <Marker position={[focusPoint.lat, focusPoint.lng]} icon={goldIcon} />
         )}

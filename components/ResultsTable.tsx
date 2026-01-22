@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, CheckCircle2, XCircle, ChevronRight, AlertCircle, MapPin, Navigation } from 'lucide-react';
+import { Download, CheckCircle2, XCircle, ChevronRight, AlertCircle, Navigation } from 'lucide-react';
 import { AnalysisResult } from '../types';
 import Papa from 'papaparse';
 
@@ -30,10 +30,10 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ results, onSelectRes
     const csv = Papa.unparse(exportData);
     const BOM = '\uFEFF';
     const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
-    
+
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `terrascan_export_${timestamp}.csv`;
-    
+
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
@@ -54,7 +54,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ results, onSelectRes
           <h3 className="font-black text-slate-800 text-lg tracking-tight">Analysis Archive</h3>
           <p className="text-[10px] text-slate-400 uppercase font-black tracking-[0.2em] mt-1">Registry of Calculated Terrain Links</p>
         </div>
-        <button 
+        <button
           onClick={downloadResults}
           className="flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-slate-800 to-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:shadow-xl hover:shadow-slate-900/10 transition-all active:scale-95 shadow-lg"
         >
@@ -75,8 +75,8 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ results, onSelectRes
           </thead>
           <tbody className="divide-y divide-white/20">
             {results.map((res) => (
-              <tr 
-                key={res.id} 
+              <tr
+                key={res.id}
                 className={`group transition-all cursor-pointer ${selectedId === res.id ? 'bg-blue-600 shadow-xl scale-[1.005] z-10 relative' : 'hover:bg-white/50'}`}
                 onClick={() => onSelectResult(res)}
               >
@@ -94,16 +94,16 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ results, onSelectRes
                   </div>
                 </td>
                 <td className="px-8 py-6">
-                   <div className="flex flex-col gap-0.5">
-                      <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white' : 'text-slate-500'}`}>{res.pointA.lat.toFixed(5)}</span>
-                      <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white/70' : 'text-slate-400'}`}>{res.pointA.lng.toFixed(5)}</span>
-                   </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white' : 'text-slate-500'}`}>{res.pointA.lat.toFixed(5)}</span>
+                    <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white/70' : 'text-slate-400'}`}>{res.pointA.lng.toFixed(5)}</span>
+                  </div>
                 </td>
                 <td className="px-8 py-6">
-                   <div className="flex flex-col gap-0.5">
-                      <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white' : 'text-slate-500'}`}>{res.pointB.lat.toFixed(5)}</span>
-                      <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white/70' : 'text-slate-400'}`}>{res.pointB.lng.toFixed(5)}</span>
-                   </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white' : 'text-slate-500'}`}>{res.pointB.lat.toFixed(5)}</span>
+                    <span className={`font-mono text-[10px] font-black ${selectedId === res.id ? 'text-white/70' : 'text-slate-400'}`}>{res.pointB.lng.toFixed(5)}</span>
+                  </div>
                 </td>
                 <td className="px-8 py-6">
                   <div className="flex flex-col gap-1">
@@ -133,7 +133,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ results, onSelectRes
                   )}
                 </td>
                 <td className="px-8 py-6 text-right">
-                  <button 
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onSelectResult(res);
