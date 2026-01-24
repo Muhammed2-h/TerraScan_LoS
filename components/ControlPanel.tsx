@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock, Unlock, Upload, Play, MapPin, Trash2, Plus, X, AlertCircle, Settings2, DownloadCloud, LocateFixed, Edit2, Info } from 'lucide-react';
 import Papa from 'papaparse';
 import { Coordinate } from '../types';
@@ -21,6 +21,29 @@ interface ControlPanelProps {
   isAnalyzing: boolean;
   onClear: () => void;
 }
+
+const CoordinateInput = ({ lat, lng, onChange, className, disabled }: { lat: number, lng: number, onChange: (lat: number, lng: number) => void, className: string, disabled: boolean }) => {
+  const [val, setVal] = useState(`${lat}, ${lng}`);
+
+  useEffect(() => {
+    const parts = val.split(',').map(s => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      if (Math.abs(parts[0] - lat) < 0.0000001 && Math.abs(parts[1] - lng) < 0.0000001) return;
+    }
+    setVal(`${lat}, ${lng}`);
+  }, [lat, lng]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVal = e.target.value;
+    setVal(newVal);
+    const parts = newVal.split(',').map(s => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      onChange(parts[0], parts[1]);
+    }
+  };
+
+  return <input type="text" value={val} onChange={handleChange} className={className} disabled={disabled} />;
+};
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
   pointA, targets, lockA, lockB, kFactor, onUpdatePointA, onUpdateTarget, onUpdateKFactor, onAddTarget, onRemoveTarget, onToggleLock, onAnalyze, onFocusPoint, onStartPicking, isAnalyzing, onClear
@@ -145,10 +168,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
           <div className="space-y-5">
             <input type="text" placeholder="Descriptor" value={pointA.name || ''} onChange={e => onUpdatePointA({ name: e.target.value })} className={inputClasses} disabled={isAnalyzing} />
-            <div className="grid grid-cols-2 gap-5">
-              <input type="number" step="any" value={pointA.lat} onChange={e => onUpdatePointA({ lat: parseFloat(e.target.value) })} className={inputClasses} disabled={isAnalyzing} />
-              <input type="number" step="any" value={pointA.lng} onChange={e => onUpdatePointA({ lng: parseFloat(e.target.value) })} className={inputClasses} disabled={isAnalyzing} />
-            </div>
+            <CoordinateInput
+              lat={pointA.lat}
+              lng={pointA.lng}
+              onChange={(lat, lng) => onUpdatePointA({ lat, lng })}
+              className={inputClasses}
+              disabled={isAnalyzing}
+            />
           </div>
         </div>
 
@@ -173,10 +199,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               </div>
               <div className="space-y-5">
                 <input type="text" placeholder="Descriptor" value={target.name || ''} onChange={e => onUpdateTarget(index, { name: e.target.value })} className={inputClasses} disabled={isAnalyzing} />
-                <div className="grid grid-cols-2 gap-5">
-                  <input type="number" step="any" value={target.lat} onChange={e => onUpdateTarget(index, { lat: parseFloat(e.target.value) })} className={inputClasses} disabled={isAnalyzing} />
-                  <input type="number" step="any" value={target.lng} onChange={e => onUpdateTarget(index, { lng: parseFloat(e.target.value) })} className={inputClasses} disabled={isAnalyzing} />
-                </div>
+                <CoordinateInput
+                  lat={target.lat}
+                  lng={target.lng}
+                  onChange={(lat, lng) => onUpdateTarget(index, { lat, lng })}
+                  className={inputClasses}
+                  disabled={isAnalyzing}
+                />
               </div>
             </div>
           ))}
